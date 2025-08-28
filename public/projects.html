@@ -1,0 +1,538 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --surface: #1e293b;
+        --surface-light: #334155;
+        --accent: #06b6d4;
+        --accent-2: #0891b2;
+        --text: #f1f5f9;
+        --muted: #9ca3af;
+        --border: rgba(6, 182, 212, 0.2);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        --shadow-glow: 0 0 30px rgba(6, 182, 212, 0.4);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background: linear-gradient(135deg, var(--bg), var(--surface), var(--surface-light));
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+          radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* Navigation */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(30, 41, 59, 0.9);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        z-index: 100;
+        padding: 1rem 0;
+      }
+
+      .nav .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        font-weight: 900;
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, var(--accent), #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--text);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .nav-links a:hover {
+        background: rgba(6, 182, 212, 0.1);
+        color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      .nav-links a.active {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: white;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 8rem 2rem 4rem;
+        position: relative;
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--accent), #8b5cf6, #10b981);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        animation: slideUp 1s ease forwards;
+      }
+
+      .hero p {
+        font-size: 1.3rem;
+        opacity: 0.9;
+        margin-bottom: 3rem;
+        animation: slideUp 1s ease 0.2s forwards;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Projects Grid */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .project-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border-radius: 24px;
+        padding: 2rem;
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-glow);
+        border-color: var(--accent);
+      }
+
+      .project-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--accent);
+      }
+
+      .project-description {
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .tech-tag {
+        padding: 0.25rem 0.75rem;
+        background: rgba(6, 182, 212, 0.1);
+        border-radius: 12px;
+        font-size: 0.8rem;
+        color: var(--accent);
+        border: 1px solid rgba(6, 182, 212, 0.2);
+      }
+
+      .project-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .project-link {
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .link-demo {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: white;
+      }
+
+      .link-demo:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-glow);
+      }
+
+      .link-code {
+        background: transparent;
+        color: var(--accent);
+        border: 2px solid var(--accent);
+      }
+
+      .link-code:hover {
+        background: var(--accent);
+        color: white;
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="nav">
+      <div class="container">
+        <div class="logo">พอร์ตโฟลิโอ</div>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/about.html">About</a>
+          <a href="/projects.html" class="active">Projects</a>
+          <a href="/tech-1">Tech 1</a>
+          <a href="/tech-2">Tech 2</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div>
+        <h1>Projects</h1>
+        <p>Showcasing innovative solutions and creative implementations</p>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+      <!-- Controls -->
+      <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; align-items: center;">
+        <div style="position: relative; display: flex; align-items: center; background: rgba(255, 255, 255, 0.05); border-radius: 25px; border: 1px solid var(--border); padding: 0.5rem 1rem; backdrop-filter: blur(10px);">
+          <span style="color: var(--accent); margin-right: 0.5rem;">🔍</span>
+          <input
+            type="text"
+            style="background: transparent; border: none; outline: none; color: var(--text); font-size: 1rem; width: 250px;"
+            placeholder="Search projects..."
+            id="searchInput"
+          />
+        </div>
+
+        <button class="filter-btn active" onclick="filterProjects('all')">
+          <span>📂</span> All
+        </button>
+        <button class="filter-btn" onclick="filterProjects('web')">
+          <span>🌐</span> Web
+        </button>
+        <button class="filter-btn" onclick="filterProjects('mobile')">
+          <span>📱</span> Mobile
+        </button>
+        <button class="filter-btn" onclick="filterProjects('ai')">
+          <span>🤖</span> AI/ML
+        </button>
+        <button class="filter-btn" onclick="filterProjects('backend')">
+          <span>⚙️</span> Backend
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem; flex-wrap: wrap;" id="stats">
+        <!-- Stats will be populated by JavaScript -->
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-grid" id="projectsGrid">
+        <div style="text-align: center; padding: 3rem; color: var(--muted);">Loading amazing projects... 🚀</div>
+    </div>
+    </main>
+
+    <script>
+      // Advanced JavaScript Project Showcase
+      class ProjectManager {
+        constructor() {
+          this.projects = []
+          this.filteredProjects = []
+          this.currentFilter = 'all'
+          this.searchTerm = ''
+          this.stats = {
+            total: 0,
+            web: 0,
+            mobile: 0,
+            ai: 0,
+            backend: 0,
+            completed: 0,
+            inProgress: 0,
+            planned: 0
+          }
+          this.init()
+        }
+
+        init() {
+          this.loadProjects()
+          this.setupEventListeners()
+          this.updateStats()
+          this.renderProjects()
+        }
+
+        loadProjects() {
+          this.projects = [
+            {
+              id: 1,
+              title: "E-Commerce Revolution",
+              description: "A cutting-edge e-commerce platform built with React, Node.js, and advanced state management. Features real-time inventory, AI-powered recommendations, and seamless payment integration.",
+              technologies: ["React", "Node.js", "MongoDB", "Stripe", "Redux"],
+              category: "web",
+              status: "completed",
+              image: "🛒",
+              demoUrl: "https://demo-ecommerce.vercel.app",
+              codeUrl: "https://github.com/yourusername/ecommerce-platform"
+            },
+            {
+              id: 2,
+              title: "AI-Powered Task Manager",
+              description: "Intelligent task management app using machine learning to prioritize tasks, predict deadlines, and optimize productivity with natural language processing.",
+              technologies: ["React Native", "TensorFlow.js", "NLP", "Firebase"],
+              category: "ai",
+              status: "in-progress",
+              image: "🤖",
+              demoUrl: "https://demo-taskmanager.vercel.app",
+              codeUrl: "https://github.com/yourusername/ai-taskmanager"
+            },
+            {
+              id: 3,
+              title: "Real-Time Collaboration Platform",
+              description: "A sophisticated collaboration tool with real-time editing, video conferencing, and advanced project management features built with modern web technologies.",
+              technologies: ["React", "WebRTC", "Socket.io", "PostgreSQL"],
+              category: "web",
+              status: "completed",
+              image: "👥",
+              demoUrl: "https://demo-collaboration.vercel.app",
+              codeUrl: "https://github.com/yourusername/collab-platform"
+            },
+            {
+              id: 4,
+              title: "Mobile Fitness Companion",
+              description: "Cross-platform mobile application for fitness tracking with AI-powered workout planning, nutrition analysis, and social features.",
+              technologies: ["React Native", "AI", "Nutrition API", "Wearables"],
+              category: "mobile",
+              status: "completed",
+              image: "💪",
+              demoUrl: "https://demo-fitness.vercel.app",
+              codeUrl: "https://github.com/yourusername/fitness-app"
+            },
+            {
+              id: 5,
+              title: "Microservices Architecture Demo",
+              description: "A demonstration of advanced backend architecture with microservices, API gateway, service discovery, and container orchestration.",
+              technologies: ["Docker", "Kubernetes", "RabbitMQ", "Consul", "Go"],
+              category: "backend",
+              status: "completed",
+              image: "🏗️",
+              demoUrl: "https://demo-microservices.vercel.app",
+              codeUrl: "https://github.com/yourusername/microservices-demo"
+            },
+            {
+              id: 6,
+              title: "AR Interior Design App",
+              description: "Augmented reality application for interior design visualization using ARCore and advanced computer vision algorithms.",
+              technologies: ["React Native", "ARCore", "Computer Vision", "OpenCV"],
+              category: "mobile",
+              status: "in-progress",
+              image: "🏠",
+              demoUrl: "https://demo-ar-interior.vercel.app",
+              codeUrl: "https://github.com/yourusername/ar-interior"
+            }
+          ]
+        }
+
+        setupEventListeners() {
+          const searchInput = document.getElementById('searchInput')
+          searchInput.addEventListener('input', (e) => {
+            this.searchTerm = e.target.value.toLowerCase()
+            this.filterProjects()
+          })
+        }
+
+        filterProjects(category = null) {
+          if (category !== null) {
+            this.currentFilter = category
+          }
+
+          // Update active filter button
+          document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active')
+          })
+          document.querySelector(`[onclick="filterProjects('${this.currentFilter}')"]`).classList.add('active')
+
+          this.filteredProjects = this.projects.filter(project => {
+            const matchesCategory = this.currentFilter === 'all' || project.category === this.currentFilter
+            const matchesSearch = this.searchTerm === '' ||
+              project.title.toLowerCase().includes(this.searchTerm) ||
+              project.description.toLowerCase().includes(this.searchTerm) ||
+              project.technologies.some(tech => tech.toLowerCase().includes(this.searchTerm))
+
+            return matchesCategory && matchesSearch
+          })
+
+          this.updateStats()
+          this.renderProjects()
+        }
+
+        updateStats() {
+          // Calculate stats
+          this.stats.total = this.projects.length
+          this.stats.web = this.projects.filter(p => p.category === 'web').length
+          this.stats.mobile = this.projects.filter(p => p.category === 'mobile').length
+          this.stats.ai = this.projects.filter(p => p.category === 'ai').length
+          this.stats.backend = this.projects.filter(p => p.category === 'backend').length
+          this.stats.completed = this.projects.filter(p => p.status === 'completed').length
+          this.stats.inProgress = this.projects.filter(p => p.status === 'in-progress').length
+          this.stats.planned = this.projects.filter(p => p.status === 'planned').length
+
+          // Render stats
+          const statsContainer = document.getElementById('stats')
+          statsContainer.innerHTML = `
+            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 16px; border: 1px solid var(--border); backdrop-filter: blur(10px);">
+              <span style="font-size: 2rem; font-weight: 900; color: var(--accent); display: block;">${this.filteredProjects.length}</span>
+              <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Projects Shown</div>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 16px; border: 1px solid var(--border); backdrop-filter: blur(10px);">
+              <span style="font-size: 2rem; font-weight: 900; color: var(--accent); display: block;">${this.stats.completed}</span>
+              <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Completed</div>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 16px; border: 1px solid var(--border); backdrop-filter: blur(10px);">
+              <span style="font-size: 2rem; font-weight: 900; color: var(--accent); display: block;">${this.stats.inProgress}</span>
+              <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">In Progress</div>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 16px; border: 1px solid var(--border); backdrop-filter: blur(10px);">
+              <span style="font-size: 2rem; font-weight: 900; color: var(--accent); display: block;">${this.stats.total}</span>
+              <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Total Projects</div>
+            </div>
+          `
+        }
+
+        renderProjects() {
+          const grid = document.getElementById('projectsGrid')
+
+          if (this.filteredProjects.length === 0) {
+            grid.innerHTML = `
+              <div style="text-align: center; padding: 3rem; color: var(--muted);">
+                <span style="font-size: 3rem; margin-bottom: 1rem; display: block;">🔍</span>
+                <h3>No projects found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+              </div>
+            `
+            return
+          }
+
+          grid.innerHTML = this.filteredProjects.map((project, index) => `
+            <div class="project-card" style="animation-delay: ${index * 0.1}s;">
+              <div style="width: 100%; height: 200px; background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1)); border-radius: 12px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--accent);">
+                ${project.image}
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                <div>
+                  <h3 class="project-title">${project.title}</h3>
+                  <span style="padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; ${
+                    project.status === 'completed' ? 'background: rgba(16, 185, 129, 0.2); color: #10b981;' :
+                    project.status === 'in-progress' ? 'background: rgba(245, 158, 11, 0.2); color: #f59e0b;' :
+                    'background: rgba(139, 92, 246, 0.2); color: #8b5cf6;'
+                  }">
+                    ${project.status.replace('-', ' ')}
+                  </span>
+                </div>
+              </div>
+              <p class="project-description">${project.description}</p>
+              <div class="project-tech">
+                ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+              </div>
+              <div class="project-links">
+                <a href="${project.demoUrl}" class="project-link link-demo" target="_blank">
+                  <span>🚀</span> View Demo
+                </a>
+                <a href="${project.codeUrl}" class="project-link link-code" target="_blank">
+                  <span>💻</span> View Code
+                </a>
+              </div>
+            </div>
+          `).join('')
+        }
+      }
+
+      // Initialize the application
+      document.addEventListener('DOMContentLoaded', () => {
+        window.projectManager = new ProjectManager()
+
+        // Make filterProjects globally available
+        window.filterProjects = (category) => {
+          window.projectManager.filterProjects(category)
+        }
+      })
+    </script>
+  </body>
+</html>
+
+
