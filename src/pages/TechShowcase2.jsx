@@ -895,8 +895,8 @@ const TechShowcase2 = () => {
                   Connected {new Date(conn.connectedAt).toLocaleTimeString()}
                 </div>
               </div>
-            ))}
-          </div>
+        ))}
+      </div>
         </div>
       </div>
 

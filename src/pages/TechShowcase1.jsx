@@ -530,7 +530,7 @@ export default AdvancedComponent`)
       }
     }, [])
 
-    return (
+  return (
       <div style={{
         width: '100%',
         height: '300px',
@@ -622,10 +622,10 @@ export default AdvancedComponent`)
         }}>
           <div>💾 Memory: {stats.memory}</div>
           <div>⚡ GPU: Not Required</div>
-        </div>
       </div>
-    )
-  }
+    </div>
+  )
+}
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
